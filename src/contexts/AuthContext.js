@@ -18,6 +18,26 @@ export const AuthProvider = ({ children }) => {
         return auth.createUserWithEmailAndPassword(email, password)
     }
 
+    const login = (email, password) => {
+        return auth.signInWithEmailAndPassword(email, password);
+    }
+
+    const logout = () => {
+        return auth.signOut();
+    }
+
+    const resetPassword = email => {
+        return auth.sendPasswordResetEmail(email);
+    }
+
+    const updateEmail = email => {
+        return currentUser.updateEmail(email);
+    }
+
+    const updatePassword = password => {
+        return currentUser.updatePassword(password);
+    }
+
     // onAuthStateChanged will only run upon mounting
     useEffect(() => {
         // Firebase lets us know via onAuthStateChanged whether a user has been set
@@ -33,7 +53,12 @@ export const AuthProvider = ({ children }) => {
     // See above. currentUser is a state
     const value = {
         currentUser,
-        signup
+        signup,
+        login,
+        logout,
+        resetPassword,
+        updateEmail,
+        updatePassword
     }
 
     return (

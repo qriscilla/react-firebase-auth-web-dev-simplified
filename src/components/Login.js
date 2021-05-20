@@ -3,11 +3,10 @@ import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 
-const Signup = () => {
+const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
-    const { signup } = useAuth();
+    const { login } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -15,18 +14,14 @@ const Signup = () => {
     const handleSubmit = async e => {
         e.preventDefault(); // Prevent the form from refreshing
 
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError('Passwords do not match');
-        }
-
-        // Below, the code will await for signup, and run catch if there's an error
+        // Below, the code will await for login, and run catch if there's an error
         try {
             setError('');
             setLoading(true);
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await login(emailRef.current.value, passwordRef.current.value);
             history.push('/');
         } catch {
-            setError('Failed to create an account');
+            setError('Failed to log in');
         }
 
         setLoading(false);
@@ -36,7 +31,7 @@ const Signup = () => {
         <>
             <Card>
                 <Card.Body>
-                    <h2 className='text-center mb-4'>Sign Up</h2>
+                    <h2 className='text-center mb-4'>Log In</h2>
                     {error && <Alert variant='danger'>{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id='email' className='mb-3'>
@@ -47,24 +42,23 @@ const Signup = () => {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type='password' ref={passwordRef} required />
                         </Form.Group>
-                        <Form.Group id='password-confirm' className='mb-3'>
-                            <Form.Label>Password Confirmation</Form.Label>
-                            <Form.Control type='password' ref={passwordConfirmRef} required />
-                        </Form.Group>
                         <Button 
                             disabled={loading} 
                             className='w-100' 
                             type='submit' >
-                            Sign Up
+                            Log In
                         </Button>
                     </Form>
+                    <div className='w-100 text-center mt-3'>
+                        <Link to='/forgot-password'>Forgot Password?</Link>
+                    </div>
                 </Card.Body>
             </Card>
             <div className='w-100 text-center mt-2'>
-                Already have an account? <Link to='/login'>Log In</Link>
+                Need an account? <Link to='/signup'>Sign Up</Link>
             </div>
         </>
     )
 }
 
-export default Signup;
+export default Login;
