@@ -13,7 +13,7 @@ const Signup = () => {
     const history = useHistory();
 
     const handleSubmit = async e => {
-        e.preventDefault(); // Prevent the form from refreshing
+        e.preventDefault();
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError('Passwords do not match');
